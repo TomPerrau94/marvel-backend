@@ -21,12 +21,13 @@ router.get("/search/characters", async (req, res) => {
 
     // Récupérer le nom entré dans la barre de recherche côté front
     // const nameSearched = new RegExp(req.query.name, "i");
+    console.log(req.query.name);
     const nameSearched = req.query.name;
     console.log(nameSearched);
 
     // Requête vers l'API Marvel
     const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/characters?limit=100&name=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      `https://gateway.marvel.com/v1/public/characters?limit=100&nameStartsWith=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
     );
     console.log(response.data.status);
 
