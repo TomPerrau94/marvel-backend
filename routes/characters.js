@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
     const response = await axios.get(
       `https://gateway.marvel.com/v1/public/characters?limit=100&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
     );
-    console.log(response.data);
+    console.log(response.data.status);
 
     // Réponse au client
     res.status(200).json(response.data);
