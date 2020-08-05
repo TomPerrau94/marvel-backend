@@ -2,13 +2,13 @@
 // const apiPublic = process.env.MARVEL_API_PUBLIC;
 // const apiSecret = process.env.MARVEL_API_SECRET;
 
-// const urlParams = () => {
+// const urlParams = (next) => {
 //   const date = new Date();
 //   const ts = date.getTime() / 1000;
 //   const hash = MD5(ts + apiSecret + apiPublic);
 
 //   const params = `ts=${ts}&apikey=${apiPublic}&hash=${hash}`;
-//   return params;
+//   return next();
 // };
 
 // module.exports = urlParams;
