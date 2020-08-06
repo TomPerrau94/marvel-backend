@@ -20,8 +20,6 @@ router.get("/search/characters", async (req, res) => {
     const hash = MD5(ts + apiSecret + apiPublic);
 
     // Récupérer le nom entré dans la barre de recherche côté front
-    // const nameSearched = new RegExp(req.query.name, "i");
-    console.log(req.query.name);
     const nameSearched = req.query.nameStartsWith;
     console.log(nameSearched);
 

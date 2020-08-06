@@ -20,7 +20,6 @@ router.get("/search/comics", async (req, res) => {
     const hash = MD5(ts + apiSecret + apiPublic);
 
     // Récupérer le nom entré dans la barre de recherche côté front
-    // const titleSearched = new RegExp(req.query.title, "i");
     const titleSearched = req.query.titleStartsWith;
     console.log(titleSearched);
 
