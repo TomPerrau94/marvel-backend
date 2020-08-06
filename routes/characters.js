@@ -20,13 +20,24 @@ router.get("/", async (req, res) => {
     const hash = MD5(ts + apiSecret + apiPublic);
 
     // Requête vers l'API Marvel
-    const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/characters?limit=100&orderBy=name&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
-    );
-    console.log(response.data.status);
 
-    // Réponse au client
-    res.status(200).json(response.data);
+    if (req.query.offset) {
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/characters?limit=100&offset=${req.query.offset}&orderBy=name&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
+
+      // Réponse au client
+      res.status(200).json(response.data);
+    } else {
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/characters?limit=100&orderBy=name&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
+
+      // Réponse au client
+      res.status(200).json(response.data);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
