@@ -5,7 +5,7 @@ const axios = require("axios");
 // Import de crypto-js pour la sécurisation de la requête vers l'API Marvel
 const MD5 = require("crypto-js/md5");
 
-// Rechercher un personnage par nom
+// Rechercher un comic par titre
 router.get("/search/comics", async (req, res) => {
   try {
     const apiPublic = process.env.MARVEL_API_PUBLIC;
@@ -19,7 +19,8 @@ router.get("/search/comics", async (req, res) => {
     // Création du hash demandé par l'API Marvel
     const hash = MD5(ts + apiSecret + apiPublic);
 
-    // Récupérer le nom entré dans la barre de recherche côté front
+    // Récupérer le titre entré dans la barre de recherche côté front
+    console.log(req.query.titleStartsWith);
     const titleSearched = req.query.titleStartsWith;
     console.log(titleSearched);
 
