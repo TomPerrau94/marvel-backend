@@ -50,14 +50,28 @@ router.get("/comics/search", async (req, res) => {
     const titleSearched = encodeURI(req.query.titleStartsWith);
     console.log(titleSearched);
 
-    // Requête vers l'API Marvel
-    const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/comics?titleStartsWith=${titleSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
-    );
-    console.log(response.data.status);
+    // Gérer le comportement de la pagination
+    if (req.query.offset) {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/comics?offset=${req.query.offset}&titleStartsWith=${titleSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
 
-    // Réponse au client
-    res.status(200).json(response.data);
+      // Réponse au client
+      res.status(200).json(response.data);
+    } else {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/comics?titleStartsWith=${titleSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
+
+      // Réponse au client
+      res.status(200).json(response.data);
+    }
+
+    // Requête vers l'API Marvel
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

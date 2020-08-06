@@ -19,9 +19,9 @@ router.get("/", async (req, res) => {
     // Création du hash demandé par l'API Marvel
     const hash = MD5(ts + apiSecret + apiPublic);
 
-    // Requête vers l'API Marvel
-
+    // Gérer le comportement de la pagination
     if (req.query.offset) {
+      // Requête vers l'API Marvel
       const response = await axios.get(
         `https://gateway.marvel.com/v1/public/characters?limit=100&offset=${req.query.offset}&orderBy=name&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
       );
@@ -88,14 +88,26 @@ router.get("/characters/search", async (req, res) => {
     const nameSearched = encodeURI(req.query.nameStartsWith);
     console.log(nameSearched);
 
-    // Requête vers l'API Marvel
-    const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/characters?nameStartsWith=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
-    );
-    console.log(response.data.status);
+    // Gérer le comportement de la pagination
+    if (req.query.offset) {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/characters?offset=${req.query.offset}&nameStartsWith=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
 
-    // Réponse au client
-    res.status(200).json(response.data);
+      // Réponse au client
+      res.status(200).json(response.data);
+    } else {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/characters?nameStartsWith=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
+
+      // Réponse au client
+      res.status(200).json(response.data);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
