@@ -27,7 +27,7 @@ router.get("/search/characters", async (req, res) => {
 
     // Requête vers l'API Marvel
     const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/characters?limit=100&nameStartsWith=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      `https://gateway.marvel.com/v1/public/characters?name=${nameSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
     );
     console.log(response.data.status);
 
