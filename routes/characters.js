@@ -60,7 +60,7 @@ router.get("/:id/comics", async (req, res) => {
 });
 
 // Rechercher un personnage par nom
-router.get("/search/characters", async (req, res) => {
+router.get("/characters/search", async (req, res) => {
   try {
     const apiPublic = process.env.MARVEL_API_PUBLIC;
     const apiSecret = process.env.MARVEL_API_SECRET;
@@ -74,7 +74,7 @@ router.get("/search/characters", async (req, res) => {
     const hash = MD5(ts + apiSecret + apiPublic);
 
     // Récupérer le nom entré dans la barre de recherche côté front
-    const nameSearched = req.query.nameStartsWith;
+    const nameSearched = encodeURI(req.query.nameStartsWith);
     console.log(nameSearched);
 
     // Requête vers l'API Marvel

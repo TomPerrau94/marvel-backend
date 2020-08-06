@@ -33,7 +33,7 @@ router.get("/comics", async (req, res) => {
 });
 
 // Rechercher un comic par titre
-router.get("/search/comics", async (req, res) => {
+router.get("/comics/search", async (req, res) => {
   try {
     const apiPublic = process.env.MARVEL_API_PUBLIC;
     const apiSecret = process.env.MARVEL_API_SECRET;
@@ -47,8 +47,7 @@ router.get("/search/comics", async (req, res) => {
     const hash = MD5(ts + apiSecret + apiPublic);
 
     // Récupérer le titre entré dans la barre de recherche côté front
-    console.log(req.query.titleStartsWith);
-    const titleSearched = req.query.titleStartsWith;
+    const titleSearched = encodeURI(req.query.titleStartsWith);
     console.log(titleSearched);
 
     // Requête vers l'API Marvel
