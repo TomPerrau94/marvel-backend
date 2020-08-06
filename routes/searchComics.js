@@ -21,7 +21,7 @@ router.get("/search/comics", async (req, res) => {
 
     // Récupérer le nom entré dans la barre de recherche côté front
     // const titleSearched = new RegExp(req.query.title, "i");
-    const titleSearched = req.query.title;
+    const titleSearched = req.query.titleStartsWith;
     console.log(titleSearched);
 
     // Requête vers l'API Marvel
