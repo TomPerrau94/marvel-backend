@@ -19,14 +19,26 @@ router.get("/comics", async (req, res) => {
     // Création du hash demandé par l'API Marvel
     const hash = MD5(ts + apiSecret + apiPublic);
 
-    // Requête vers l'API Marvel
-    const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/comics?limit=100&orderBy=title&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
-    );
-    console.log(response.data.status);
+    // Gérer le comportement de la pagination
+    if (req.query.offset) {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/comics?orderBy=title&offset=${req.query.offset}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
 
-    // Réponse au client
-    res.status(200).json(response.data);
+      // Réponse au client
+      res.status(200).json(response.data);
+    } else {
+      // Requête vers l'API Marvel
+      const response = await axios.get(
+        `https://gateway.marvel.com/v1/public/comics?orderBy=title&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+      );
+      console.log(response.data.status);
+
+      // Réponse au client
+      res.status(200).json(response.data);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -54,7 +66,7 @@ router.get("/comics/search", async (req, res) => {
     if (req.query.offset) {
       // Requête vers l'API Marvel
       const response = await axios.get(
-        `https://gateway.marvel.com/v1/public/comics?offset=${req.query.offset}&titleStartsWith=${titleSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+        `https://gateway.marvel.com/v1/public/comics?orderBy=title&offset=${req.query.offset}&titleStartsWith=${titleSearched}&ts=${ts}&apikey=${apiPublic}&hash=${hash}`
       );
       console.log(response.data.status);
 
@@ -70,8 +82,33 @@ router.get("/comics/search", async (req, res) => {
       // Réponse au client
       res.status(200).json(response.data);
     }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Récupérer un comic en particulier
+router.get("/comics/:id", async (req, res) => {
+  try {
+    const apiPublic = process.env.MARVEL_API_PUBLIC;
+    const apiSecret = process.env.MARVEL_API_SECRET;
+
+    // Sécurisation de l'api secret
+    // Création d'un timestamp
+    const date = new Date();
+    const ts = date.getTime() / 1000;
+
+    // Création du hash demandé par l'API Marvel
+    const hash = MD5(ts + apiSecret + apiPublic);
 
     // Requête vers l'API Marvel
+    const response = await axios.get(
+      `https://gateway.marvel.com/v1/public/comics/${req.params.id}?ts=${ts}&apikey=${apiPublic}&hash=${hash}`
+    );
+    console.log(response.data.status);
+
+    // Réponse au client
+    res.status(200).json(response.data);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
