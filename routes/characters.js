@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 });
 
 // Récupérer tous les comics liés à un personnage
-router.get("/characters/:id/comics", async (req, res) => {
+router.get("/character/:id/comics", async (req, res) => {
   try {
     const apiPublic = process.env.MARVEL_API_PUBLIC;
     const apiSecret = process.env.MARVEL_API_SECRET;
