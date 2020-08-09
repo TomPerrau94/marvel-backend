@@ -11,12 +11,10 @@ app.use(formidable());
 // Import des routes
 const charactersRoutes = require("./routes/characters");
 const comicsRoutes = require("./routes/comics");
-// const favoritesRoutes = require("./routes/favorites");
 
 // Initialisation des routes
 app.use(charactersRoutes);
 app.use(comicsRoutes);
-// app.use(favoritesRoutes);
 
 // Lancement du serveur
 app.listen(process.env.PORT, () => {
