@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 });
 
 // Récupérer tous les comics liés à un personnage
-router.get("/:id/comics", async (req, res) => {
+router.get("/characters/:id/comics", async (req, res) => {
   try {
     const apiPublic = process.env.MARVEL_API_PUBLIC;
     const apiSecret = process.env.MARVEL_API_SECRET;
@@ -108,33 +108,6 @@ router.get("/characters/search", async (req, res) => {
       // Réponse au client
       res.status(200).json(response.data);
     }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Récupérer un personnage en particulier de l'API Marvel
-router.get("/:id", async (req, res) => {
-  try {
-    const apiPublic = process.env.MARVEL_API_PUBLIC;
-    const apiSecret = process.env.MARVEL_API_SECRET;
-
-    // Sécurisation de l'api secret
-    // Création d'un timestamp
-    const date = new Date();
-    const ts = date.getTime() / 1000;
-
-    // Création du hash demandé par l'API Marvel
-    const hash = MD5(ts + apiSecret + apiPublic);
-
-    // Requête vers l'API Marvel
-    const response = await axios.get(
-      `https://gateway.marvel.com/v1/public/characters/${req.params.id}?ts=${ts}&apikey=${apiPublic}&hash=${hash}`
-    );
-    console.log(response.data.status);
-
-    // Réponse au client
-    res.status(200).json(response.data);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
